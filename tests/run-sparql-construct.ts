@@ -110,6 +110,7 @@ async function testPlayground(api: any): Promise<void> {
   for (const id of [...names.flatMap(name => [`${name}Text`, `${name}Url`, `${name}Load`, `${name}Status`]),
     'queryText', 'status', 'diagnostics', 'generateButton', 'resetButton', 'copyButton', 'downloadButton',
     'exampleSelect', 'exampleDescription', 'ndeGuidance', 'dataText', 'dataUrl', 'dataLoad', 'dataLoadStatus',
+    'ontologyOhiQuery', 'ontologyOhiResults', 'ontologyOhiStatus',
     'runtimeText', 'planQueries', 'outputQueryLabel', 'runtimePanel', 'resultText', 'executionPanel', 'executionStatus', 'runQueryButton', 'stopQueryButton']) {
     elements.set(id, { id, value: '', textContent: '', disabled: false, handlers: {} as Record<string, (...args: any[]) => unknown>,
       options: [] as any[], appendChild(option: any) { this.options.push(option); }, replaceChildren() { this.options = []; }, reportValidity: () => true, addEventListener(event: string, handler: (...args: any[]) => unknown) { this.handlers[event] = handler; } });

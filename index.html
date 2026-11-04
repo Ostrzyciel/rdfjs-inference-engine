@@ -764,6 +764,113 @@
       }
     }
     .editor-url-row input[type="url"] { min-width: 0; width: 100%; flex: 1 1 12rem; }
+
+    .ohi-search {
+      margin-bottom: 0.9rem;
+    }
+
+    .ohi-search input[type="search"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--text);
+      padding: 0.55rem 0.9rem;
+      outline: none;
+    }
+
+    .ohi-search input[type="search"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+    }
+
+    .ohi-search .hint {
+      margin: 0.35rem 0 0;
+    }
+
+    .ohi-search a {
+      color: var(--accent-dark);
+    }
+
+    .ohi-results {
+      max-height: 20rem;
+      margin: 0.6rem 0 0;
+      padding: 0;
+      overflow-y: auto;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      list-style: none;
+    }
+
+    .ohi-results li + li {
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .ohi-item {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .ohi-view {
+      display: flex;
+      flex: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      color: var(--muted);
+    }
+
+    .ohi-view:hover,
+    .ohi-view:focus-visible {
+      background: var(--panel-soft);
+      color: var(--accent-dark);
+    }
+
+    .ohi-results button,
+    .ohi-results button:hover:not(:disabled) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+      flex: 1 1 auto;
+      min-width: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      font-weight: 400;
+      padding: 0.55rem 0.85rem;
+      text-align: left;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .ohi-results button:hover:not(:disabled),
+    .ohi-results button:focus-visible {
+      background: var(--panel-soft);
+    }
+
+    .ohi-hit-title {
+      font-weight: 650;
+    }
+
+    .ohi-hit-meta,
+    .ohi-hit-description {
+      max-width: 100%;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .ohi-hit-description {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .ohi-search input[type="search"] {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -857,6 +964,13 @@
           </div>
         </div>
         <div class="ontology-body">
+          <div class="ohi-search">
+            <label for="backgroundOhiQuery">Search ohi.dev</label>
+            <input id="backgroundOhiQuery" type="search" placeholder="Name, prefix or topic, e.g. sosa" autocomplete="off" spellcheck="false">
+            <p class="hint">Find a published ontology on <a href="https://ohi.dev" target="_blank" rel="noopener">ohi.dev</a>. Choosing a result loads its RDF file into the editor below.</p>
+            <ul id="backgroundOhiResults" class="ohi-results" hidden></ul>
+            <p id="backgroundOhiStatus" class="status" role="status" aria-live="polite"></p>
+          </div>
           <label for="backgroundUrl">Ontology URL</label>
           <div class="uri-input-row editor-url-row">
             <input id="backgroundUrl" type="url" placeholder="https://example.org/ontology.ttl">

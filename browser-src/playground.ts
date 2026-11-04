@@ -1,3 +1,5 @@
+import { CatalogClient } from '@neverblink/ohi';
+import { createOhiSearch } from './ohi-search';
 import { createRdfUrlLoader } from './rdf-url-loader';
 import { bundledExamples } from 'bundled-examples';
 
@@ -143,6 +145,14 @@ const urlLoaders = Object.fromEntries((['background', 'data', 'shaclIn', 'shaclO
     controls.runButton.disabled = Boolean(activeRun) || pendingUrlLoads > 0;
   },
 })]));
+const ohiSearch = createOhiSearch({
+  client: new CatalogClient(),
+  input: getInput('backgroundOhiQuery'),
+  results: getElement('backgroundOhiResults'),
+  status: getElement('backgroundOhiStatus'),
+  urlInput: controls.backgroundUrl,
+  loader: urlLoaders.background,
+});
 let suppressStateUpdate = false;
 let stateUpdateTimer = 0;
 let activeRun: ActiveRun | null = null;
@@ -1156,6 +1166,7 @@ function resetDefaults(): void {
   controls.exampleSelect.value = example.id;
   controls.statefulMaterialization.checked = false;
   for (const loader of Object.values(urlLoaders)) loader.reset();
+  ohiSearch.reset();
   setDisabledRuleFiles([]);
   editors.backgroundText.setValue(example.background);
   editors.dataText.setValue(example.data);
@@ -1309,6 +1320,7 @@ function applyBundledExample(example: BundledExample): void {
   controls.exampleSelect.value = example.id;
   controls.statefulMaterialization.checked = shouldEnableStatefulMaterialization(example.id);
   for (const loader of Object.values(urlLoaders)) loader.reset();
+  ohiSearch.reset();
   editors.backgroundText.setValue(example.background);
   editors.dataText.setValue(example.data);
   editors.shaclInText.setValue(example.shaclIn ?? '');

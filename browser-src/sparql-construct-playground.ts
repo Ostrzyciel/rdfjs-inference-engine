@@ -1,5 +1,7 @@
+import { CatalogClient } from '@neverblink/ohi';
 import type { SparqlConstructResult } from '../src/sparql-construct-core';
 import { constructExamples } from './sparql-construct-examples';
+import { createOhiSearch } from './ohi-search';
 import { createRdfUrlLoader } from './rdf-url-loader';
 import type { ConstructWorkerMessage, ConstructWorkerRequest } from './sparql-construct-worker';
 import type { Quad } from '@rdfjs/types';
@@ -111,6 +113,14 @@ const urlLoaders = Object.fromEntries([...names, 'data' as const].map(name => [n
   api,
   onPendingChange: pending => { pendingLoads += pending ? 1 : -1; updateRunControls(); },
 })]));
+const ohiSearch = createOhiSearch({
+  client: new CatalogClient(),
+  input: get('ontologyOhiQuery') as HTMLInputElement,
+  results: get('ontologyOhiResults'),
+  status: get('ontologyOhiStatus'),
+  urlInput: get('ontologyUrl') as HTMLInputElement,
+  loader: urlLoaders.ontology,
+});
 for (const name of names) editors[name].on('change', invalidate);
 dataEditor.on('change', invalidateExecution);
 
@@ -124,6 +134,7 @@ exampleSelect.value = initialExample.id;
 function loadExample(): void {
   const example = constructExamples.find(example => example.id === exampleSelect.value) ?? initialExample;
   for (const loader of Object.values(urlLoaders)) loader.reset();
+  ohiSearch.reset();
   for (const name of names) editors[name].setValue(example[name]);
   dataEditor.setValue(example.data);
   get('exampleDescription').textContent = example.description;
