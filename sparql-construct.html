@@ -69,6 +69,20 @@
     .flow-arrow span { display: block; font-size: 1.5rem; color: var(--accent); }
     .execution-panel .CodeMirror { height: 360px; }
     #diagnostics { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .ohi-search { margin-top: 0.8rem; }
+    .ohi-search input[type="search"] { width: 100%; border: 1px solid var(--border); border-radius: 999px; background: var(--panel-soft); color: var(--text); padding: 0.55rem 0.9rem; }
+    .ohi-search .hint { margin: 0.35rem 0 0; }
+    .ohi-results { max-height: 18rem; margin: 0.6rem 0 0; padding: 0; overflow-y: auto; border: 1px solid var(--border); border-radius: 0.75rem; list-style: none; }
+    .ohi-results li + li { border-top: 1px solid var(--border); }
+    .ohi-item { display: flex; align-items: stretch; }
+    .ohi-view { display: flex; flex: none; align-items: center; justify-content: center; width: 44px; color: var(--muted); }
+    .ohi-view:hover, .ohi-view:focus-visible { background: var(--panel-soft); color: var(--accent); }
+    .ohi-results button, .ohi-results button:hover:not(:disabled) { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; flex: 1 1 auto; min-width: 0; border-radius: 0; background: transparent; color: var(--text); font-weight: 400; padding: 0.55rem 0.85rem; text-align: left; box-shadow: none; }
+    .ohi-results button:hover:not(:disabled), .ohi-results button:focus-visible { background: var(--panel-soft); }
+    .ohi-hit-title { font-weight: 600; }
+    .ohi-hit-meta, .ohi-hit-description { max-width: 100%; color: var(--muted); font-size: 0.78rem; overflow-wrap: anywhere; }
+    .ohi-hit-description { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 640px) { .ohi-search input[type="search"] { font-size: 16px; } }
     @media (max-width: 1000px) { .construct-inputs, .message-flow { grid-template-columns: 1fr; } .flow-arrow { display: none; } }
   </style>
 </head>
@@ -92,6 +106,13 @@
         <section class="card">
           <h2 class="section-title">1. Ontology of the data provider</h2>
           <p class="hint">Describe class and property relationships between the vocabularies.</p>
+          <div class="ohi-search">
+            <label for="ontologyOhiQuery">Search ohi.dev</label>
+            <input id="ontologyOhiQuery" type="search" placeholder="Name, prefix or topic, e.g. sosa" autocomplete="off" spellcheck="false">
+            <p class="hint">Find a published ontology on <a href="https://ohi.dev" target="_blank" rel="noopener">ohi.dev</a>.</p>
+            <ul id="ontologyOhiResults" class="ohi-results" hidden></ul>
+            <p id="ontologyOhiStatus" class="status" role="status" aria-live="polite"></p>
+          </div>
           <label for="ontologyUrl">Document URL</label>
           <div class="uri-input-row">
             <input id="ontologyUrl" type="url" placeholder="https://example.org/ontology.ttl">
